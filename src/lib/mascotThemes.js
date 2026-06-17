@@ -1,25 +1,25 @@
-// metaflush mascot palettes — keyed to match the app themes (constants THEMES),
+// metasplash mascot palettes — keyed to match the app themes (constants THEMES),
 // so the mascot recolors when the theme switches.
 
 export const metasplashThemes = {
   clean: {
-    // Punchy "clean water" gradient: lavender → indigo → mint → aqua (matches the new mascot art).
-    start: "#c4b5fd",
-    startBright: "#a78bfa",
-    mid1: "#a5b4fc",
-    mid1Bright: "#818cf8",
-    mid2: "#6ee7b7",
-    mid2Bright: "#34d399",
-    mid3: "#5eead4",
-    mid3Bright: "#2dd4bf",
-    end: "#5eead4",
-    endBright: "#22d3ee",
-    glowPrimary: "rgba(165,180,252,1)",
-    glowSecondary: "rgba(110,231,183,0.9)",
-    glowTertiary: "rgba(94,234,212,0.8)",
-    shadowColor: "rgba(165,180,252,0.35)",
-    shadowColorBright: "rgba(110,231,183,0.45)",
-    shadowColorBrightest: "rgba(94,234,212,0.5)",
+    // "Ink" default — mint → teal, matching the document-ghost art + icon.
+    start: "#a7e8c4",
+    startBright: "#c4f2da",
+    mid1: "#8fe0b8",
+    mid1Bright: "#a9ebcb",
+    mid2: "#7fd9b0",
+    mid2Bright: "#9be3c4",
+    mid3: "#62cda0",
+    mid3Bright: "#7fdcb4",
+    end: "#5fc99a",
+    endBright: "#7ad9b0",
+    glowPrimary: "rgba(127,217,176,1)",
+    glowSecondary: "rgba(95,201,154,0.9)",
+    glowTertiary: "rgba(167,232,196,0.8)",
+    shadowColor: "rgba(127,217,176,0.32)",
+    shadowColorBright: "rgba(95,201,154,0.42)",
+    shadowColorBrightest: "rgba(167,232,196,0.5)",
   },
   porcelain: {
     // Crisp water: sky blue → cyan → teal.
