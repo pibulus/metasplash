@@ -3,6 +3,8 @@
   import PageLayout from "$lib/components/layout/PageLayout.svelte";
   import AnimatedTitle from "$lib/components/AnimatedTitle.svelte";
   import FooterComponent from "$lib/components/FooterComponent.svelte";
+  import OptionsModal from "$lib/components/OptionsModal.svelte";
+  import AboutModal from "$lib/components/AboutModal.svelte";
   import {
     splashFileMetadata,
     readExistingTags,
@@ -19,6 +21,8 @@
   let dragOver = false;
   let busy = false;
   let error = "";
+  let showOptions = false;
+  let showAbout = false;
 
   // flow: idle → form (file picked, editing tags) → done (tagged, downloadable)
   let phase = "idle";
@@ -28,6 +32,11 @@
   let fields = {};
   /** @type {{name,blob,type,inputSize,outputSize,note}|null} */
   let tagged = null;
+
+  // Session history — tagged files stay re-downloadable until reload (the blobs
+  // live in memory; localStorage can't hold MB-sized files, so this is honest).
+  /** @type {Array<{name,blob,type,outputSize}>} */
+  let session = [];
 
   $: fieldDefs = kind === "audio-id3" ? AUDIO_FIELDS : IMAGE_FIELDS;
 
@@ -68,6 +77,10 @@
     mascot?.startThinking();
     try {
       tagged = await splashFileMetadata(file, fields);
+      session = [
+        { name: tagged.name, blob: tagged.blob, type: tagged.type, outputSize: tagged.outputSize },
+        ...session,
+      ];
       mascot?.react(12);
       phase = "done";
     } catch (e) {
@@ -75,6 +88,10 @@
     }
     busy = false;
     mascot?.stopThinking();
+  }
+
+  function applyPreset(newFields) {
+    fields = { ...fields, ...newFields };
   }
 
   function reset() {
@@ -197,6 +214,25 @@
       </div>
     {/if}
 
+    <!-- Session history — re-download anything tagged this visit -->
+    {#if session.length}
+      <details class="history" open>
+        <summary>Tagged this session ({session.length})</summary>
+        <ul>
+          {#each session as h, i (h.name + i)}
+            <li>
+              <span class="h-name" title={h.name}>{h.name}</span>
+              <span class="h-size">{formatBytes(h.outputSize)}</span>
+              <button class="h-dl" on:click={() => downloadBlob(h.blob, h.name)}>
+                ↓
+              </button>
+            </li>
+          {/each}
+        </ul>
+        <p class="history-note">stays here until you reload — files live in memory, never uploaded</p>
+      </details>
+    {/if}
+
     <!-- Theme switcher -->
     <div class="themes" role="group" aria-label="Theme">
       {#each THEME_LIST as t}
@@ -213,9 +249,20 @@
   </div>
 
   <svelte:fragment slot="footer-buttons">
-    <FooterComponent />
+    <FooterComponent
+      on:showAbout={() => (showAbout = true)}
+      on:showOptions={() => (showOptions = true)}
+    />
   </svelte:fragment>
 </PageLayout>
+
+<AboutModal open={showAbout} on:close={() => (showAbout = false)} />
+<OptionsModal
+  open={showOptions}
+  currentFields={fields}
+  on:applyPreset={(e) => applyPreset(e.detail)}
+  on:close={() => (showOptions = false)}
+/>
 
 <style>
   .mascot-slot {
@@ -368,6 +415,67 @@
   .done-meta .muted {
     font-weight: 500;
     color: #9b9199;
+  }
+
+  /* Session history — re-download list */
+  .history {
+    width: 100%;
+    font-size: 0.85rem;
+  }
+  .history summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: #4a7c63;
+    padding: 0.3rem 0.25rem;
+    user-select: none;
+  }
+  .history ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.4rem 0 0.2rem;
+  }
+  .history li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-radius: 12px;
+    border: 2px solid rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.6);
+    padding: 0.4rem 0.6rem;
+  }
+  .h-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 700;
+    color: var(--ds-ink, #16352a);
+  }
+  .h-size {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    color: #9b9199;
+  }
+  .h-dl {
+    flex-shrink: 0;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 999px;
+    background: var(--ds-primary-color, #5fc99a);
+    color: #16352a;
+    font-weight: 900;
+    transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .h-dl:active {
+    transform: scale(0.9);
+  }
+  .history-note {
+    margin-top: 0.4rem;
+    font-size: 0.72rem;
+    color: #9bb0a6;
+    text-align: center;
   }
 
   .themes {
