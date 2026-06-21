@@ -52,22 +52,15 @@
     position: relative;
     transform-origin: center;
     padding: 0.1em 0;
-    /* default: DrShrink purple→pink; theme overrides below */
-    background-image: linear-gradient(to bottom right, #9333ea, #f472b6);
-  }
-
-  /* Theme-specific gradients (data-theme on <html>) */
-  :global(html[data-theme="warm"]) .app-text {
-    background-image: linear-gradient(to bottom right, #ff8159, #ffb86b);
-  }
-  :global(html[data-theme="cool"]) .app-text {
-    background-image: linear-gradient(to bottom right, #22d3ed, #4ade80);
-  }
-  :global(html[data-theme="vibrant"]) .app-text {
-    background-image: linear-gradient(to bottom right, #9333ea, #f472b6);
-  }
-  :global(html[data-theme="minimal"]) .app-text {
-    background-image: linear-gradient(to bottom right, #6b6b6b, #9b9b9b);
+    /* GPU hints — keep the gradient text crisp during transforms */
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* gradient sourced from the active theme token; default = clean green→cyan */
+    background-image: var(
+      --app-suffix-gradient,
+      linear-gradient(to bottom right, #10b981, #06b6d4)
+    );
   }
 
   .app-suffix:hover .app-text {
@@ -101,6 +94,26 @@
     .bottom-right,
     .bottom-left {
       bottom: -0.8em;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .app-suffix {
+      font-size: calc(var(--suffix-size) * 0.9);
+    }
+    .bottom-right,
+    .bottom-left {
+      bottom: -0.7em;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .app-suffix {
+      font-size: calc(var(--suffix-size) * 1.05);
+    }
+    .bottom-right,
+    .bottom-left {
+      bottom: -1em;
     }
   }
 

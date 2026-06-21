@@ -117,22 +117,24 @@
 
 <PageLayout>
   <div class="flex w-full flex-col items-center gap-5">
-    <div class="mascot-slot">
-      <Mascot
-        bind:this={mascot}
-        character="documentghost"
-        accessory="none"
-        theme={$theme}
-        {busy}
-        ariaLabel="metasplash — choose a file"
-        on:activate={() => document.getElementById("file-input")?.click()}
+    <div class="flex w-full flex-col items-center gap-8">
+      <div class="mascot-slot h-44 w-44 sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-64 lg:w-64">
+        <Mascot
+          bind:this={mascot}
+          character="documentghost"
+          accessory="none"
+          theme={$theme}
+          {busy}
+          ariaLabel="metasplash — choose a file"
+          on:activate={() => document.getElementById("file-input")?.click()}
+        />
+      </div>
+
+      <AnimatedTitle
+        title="metasplash"
+        subtitle="Tag ya art. Stamp your name, copyright & socials onto your work before you ship it — photos and audio, 100% in your browser."
       />
     </div>
-
-    <AnimatedTitle
-      title="metasplash"
-      subtitle="Tag ya art. Stamp your name, copyright & socials onto your work before you ship it — photos and audio, 100% in your browser."
-    />
 
     {#if phase === "idle"}
       <!-- Drop zone -->
@@ -266,8 +268,9 @@
 
 <style>
   .mascot-slot {
-    width: 168px;
-    height: 168px;
+    /* size governed by responsive Tailwind ramp on the element:
+       h-44 w-44 → lg:h-64 w-64 (176px base → 256px lg), square + centered */
+    flex-shrink: 0;
   }
 
   .drop {
