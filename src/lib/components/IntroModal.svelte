@@ -1,11 +1,10 @@
 <script>
-  // metasplash about — opened via the footer's showAbout event.
-  // Converged to the shared SKELETON (matches IntroModal): warm-dark blurred
-  // backdrop (tap-to-close), spring-in open + animate-out close (closing flag
-  // held before unmount), 44px circular X (top-right 1rem, scale-hover, focus
-  // ring), centred card above 640px → docked bottom-sheet below it.
-  // prefers-reduced-motion = instant. Real document-ghost mascot, no 💦 emoji.
-  // SKIN stays 100% metasplash: mint→teal, "tag ya art" / "sign your work" voice.
+  // metasplash intro / onboarding — first-visit welcome + reopenable.
+  // Built fresh to the shared SKELETON: warm-dark blurred backdrop (tap-to-close),
+  // spring-in open + animate-out close (closing flag held before unmount),
+  // 44px circular X (top-right 1rem, scale-hover, focus ring), centred card
+  // above 640px → docked bottom-sheet below it. prefers-reduced-motion = instant.
+  // SKIN stays 100% metasplash: mint→teal document-ghost, "tag ya art" voice.
   import { createEventDispatcher } from "svelte";
   import ThemeMascot from "./ThemeMascot.svelte";
   import { theme } from "$lib";
@@ -39,18 +38,23 @@
 <svelte:window on:keydown={open ? onKeydown : undefined} />
 
 {#if open}
-  <div class="overlay" class:closing role="presentation" on:click={requestClose}>
+  <div
+    class="overlay"
+    class:closing
+    role="presentation"
+    on:click={requestClose}
+  >
     <div
       class="box"
       class:closing
       role="dialog"
       aria-modal="true"
-      aria-labelledby="about-title"
+      aria-labelledby="intro-title"
       tabindex="-1"
       on:click|stopPropagation
       on:keydown|stopPropagation
     >
-      <button class="x" on:click={requestClose} aria-label="Close about">
+      <button class="x" on:click={requestClose} aria-label="Close intro">
         <span aria-hidden="true">×</span>
       </button>
 
@@ -58,11 +62,10 @@
         <ThemeMascot theme={$theme} size="92px" />
       </div>
 
-      <h2 id="about-title">About metasplash</h2>
+      <h2 id="intro-title">Tag ya art.</h2>
       <p class="lede">
-        <strong>Tag ya art.</strong> Stamp your name, copyright, and socials onto
-        your own work before you share it — so the file carries who made it,
-        wherever it goes. metaflush strips metadata; metasplash <em>signs</em> it.
+        Stamp your <strong>name, copyright &amp; socials</strong> onto your own work
+        before you share it — so the file carries who made it, wherever it lands.
       </p>
 
       <ul class="points">
@@ -71,8 +74,8 @@
           <strong>losslessly</strong>. Your pixels and samples stay untouched.
         </li>
         <li>
-          <span class="b">✦</span> It all happens in your browser. Nothing is
-          uploaded, nothing is tracked.
+          <span class="b">✦</span> All in your browser. Nothing uploads, nothing
+          is tracked.
         </li>
         <li>
           <span class="b">✦</span> Save your details as a preset once, stamp them
@@ -80,35 +83,7 @@
         </li>
       </ul>
 
-      <p class="quote">"Sign your work."</p>
-
-      <p class="local">🔒 Runs fully in your browser. Your files never leave your device.</p>
-
-      <nav class="links" aria-label="Links">
-        <a
-          class="link"
-          href="https://github.com/pibulus"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <span class="link-ico" aria-hidden="true">⌥</span> GitHub
-        </a>
-        <a
-          class="link"
-          href="https://ko-fi.com/madebypablo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <span class="link-ico" aria-hidden="true">☕</span> Ko-fi
-        </a>
-      </nav>
-
-      <p class="sig">
-        Made with 🖊️ in Melbourne ·
-        <a href="https://github.com/pibulus" target="_blank" rel="noopener noreferrer"
-          >Pablo / Pibulus</a
-        >
-      </p>
+      <button class="cta" on:click={requestClose}>Let's sign it 🔖</button>
     </div>
   </div>
 {/if}
@@ -213,7 +188,7 @@
     flex-direction: column;
     gap: 0.55rem;
     text-align: left;
-    margin-bottom: 1.1rem;
+    margin-bottom: 1.3rem;
   }
   .points li {
     display: flex;
@@ -227,67 +202,29 @@
     color: var(--ds-primary-color, #5fc99a);
     font-weight: 800;
   }
-  .quote {
-    border-left: 4px solid var(--ds-primary-color, #5fc99a);
-    padding-left: 0.8rem;
-    text-align: left;
-    font-style: italic;
-    font-weight: 700;
-    color: #4a7c63;
-    margin-bottom: 1rem;
-  }
-  .local {
-    font-size: 0.78rem;
-    line-height: 1.45;
-    color: #7c9389;
-    margin-bottom: 1rem;
-  }
 
-  /* ── Link set: ~44px tap targets ─────────────────────────────────── */
-  .links {
-    display: flex;
-    justify-content: center;
-    gap: 0.6rem;
-    margin-bottom: 1rem;
-  }
-  .link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    min-height: 44px;
-    padding: 0.5rem 1rem;
+  .cta {
+    width: 100%;
     border-radius: 999px;
-    font-size: 0.86rem;
-    font-weight: 700;
-    color: var(--ds-ink, #16352a);
-    background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 0.7rem 1.1rem;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #fff;
+    background: var(--ds-primary-color, #5fc99a);
+    box-shadow: 0 6px 18px rgba(var(--ds-primary-color-rgb, 95, 201, 154), 0.35);
     transition:
-      transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1),
-      background 0.15s ease;
+      background 0.15s ease,
+      transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .link:hover {
-    background: rgba(255, 255, 255, 0.95);
+  .cta:hover {
     transform: translateY(-1px);
   }
-  .link:active {
+  .cta:active {
     transform: scale(0.96);
   }
-  .link:focus-visible {
-    outline: 2px solid var(--ds-primary-color, #5fc99a);
+  .cta:focus-visible {
+    outline: 2px solid var(--ds-accent-color, #ea7a2c);
     outline-offset: 2px;
-  }
-  .link-ico {
-    color: var(--ds-primary-color, #5fc99a);
-    font-weight: 800;
-  }
-
-  .sig {
-    font-size: 0.72rem;
-    color: #7c9389;
-  }
-  .sig a {
-    text-decoration: underline;
   }
 
   /* ── Mobile bottom-sheet below 640px ─────────────────────────────── */
@@ -369,7 +306,7 @@
     .box,
     .box.closing,
     .x,
-    .link {
+    .cta {
       animation: none !important;
       transition: none !important;
     }

@@ -41,6 +41,9 @@
 </script>
 
 <nav class="flex items-center space-x-1 sm:space-x-2" aria-label="metasplash footer">
+  <button type="button" class={btn} on:click={() => dispatch("showIntro")}>
+    Intro
+  </button>
   <button type="button" class={btn} on:click={() => dispatch("showAbout")}>
     About
   </button>

@@ -1,10 +1,12 @@
 <script>
+  import { onMount } from "svelte";
   import { Mascot } from "$lib/components/mascot";
   import PageLayout from "$lib/components/layout/PageLayout.svelte";
   import AnimatedTitle from "$lib/components/AnimatedTitle.svelte";
   import FooterComponent from "$lib/components/FooterComponent.svelte";
   import OptionsModal from "$lib/components/OptionsModal.svelte";
   import AboutModal from "$lib/components/AboutModal.svelte";
+  import IntroModal from "$lib/components/IntroModal.svelte";
   import {
     splashFileMetadata,
     readExistingTags,
@@ -23,6 +25,18 @@
   let error = "";
   let showOptions = false;
   let showAbout = false;
+  let showIntro = false;
+
+  const INTRO_SEEN_KEY = "metasplash:seen_intro";
+
+  onMount(() => {
+    if (!localStorage.getItem(INTRO_SEEN_KEY)) showIntro = true;
+  });
+
+  function closeIntro() {
+    showIntro = false;
+    localStorage.setItem(INTRO_SEEN_KEY, "true");
+  }
 
   // flow: idle → form (file picked, editing tags) → done (tagged, downloadable)
   let phase = "idle";
@@ -252,12 +266,14 @@
 
   <svelte:fragment slot="footer-buttons">
     <FooterComponent
+      on:showIntro={() => (showIntro = true)}
       on:showAbout={() => (showAbout = true)}
       on:showOptions={() => (showOptions = true)}
     />
   </svelte:fragment>
 </PageLayout>
 
+<IntroModal open={showIntro} on:close={closeIntro} />
 <AboutModal open={showAbout} on:close={() => (showAbout = false)} />
 <OptionsModal
   open={showOptions}
