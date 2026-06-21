@@ -30,13 +30,15 @@
     </linearGradient>
   </defs>
   <use href={artUrl + "#mascot-background"} fill="url(#{gid})" />
-  <use href={artUrl + "#mascot-body-path"} fill="#1a2e2a" />
-  <use href={artUrl + "#mascot-eye-left-path"} fill="#1a2e2a" />
-  <use href={artUrl + "#mascot-eye-right-path"} fill="#1a2e2a" />
+  <use href={artUrl + "#mascot-body-path"} fill="var(--mascot-ink, #1a1730)" />
+  <use href={artUrl + "#mascot-eye-left-path"} fill="var(--mascot-ink, #1a1730)" />
+  <use href={artUrl + "#mascot-eye-right-path"} fill="var(--mascot-ink, #1a1730)" />
 </svg>
 
 <style>
   .theme-mascot {
+    /* Same ink token as the hero mascot — soft indigo against the pastels. */
+    --mascot-ink: #1a1730;
     display: block;
     overflow: visible;
   }

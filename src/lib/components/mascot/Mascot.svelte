@@ -378,7 +378,7 @@
 							xlink:href={mascotPathsUrl}
 							href={mascotPathsUrl + '#mascot-body-path'}
 							class="mascot-outline-path"
-							fill="#1a1730"
+							fill="var(--mascot-ink, #000000)"
 							opacity="1"
 						/>
 					</g>
@@ -389,14 +389,14 @@
 							xlink:href={mascotPathsUrl}
 							href={mascotPathsUrl + '#mascot-eye-left-path'}
 							class="mascot-eye mascot-eye-left"
-							fill="#1a1730"
+							fill="var(--mascot-ink, #000000)"
 						/>
 						<use
 							bind:this={rightEye}
 							xlink:href={mascotPathsUrl}
 							href={mascotPathsUrl + '#mascot-eye-right-path'}
 							class="mascot-eye mascot-eye-right"
-							fill="#1a1730"
+							fill="var(--mascot-ink, #000000)"
 						/>
 					</g>
 
@@ -419,6 +419,9 @@
 
 <style>
 	.mascot-container {
+		/* Eye/body ink colour. Per-app SKIN knob — metasplash uses a soft indigo
+		   (deliberate against the pastel gradients) instead of pure black. */
+		--mascot-ink: #1a1730;
 		position: relative;
 		width: 100%;
 		height: 100%;
