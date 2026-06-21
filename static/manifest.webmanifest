@@ -1,7 +1,7 @@
 {
   "name": "metasplash",
   "short_name": "metasplash",
-  "description": "Strip EXIF, GPS, and tracking metadata from your files — losslessly, 100% in your browser.",
+  "description": "Tag ya art. Stamp your name, copyright, socials, and credits onto your photos and audio before you share them — losslessly, 100% in your browser.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f0fdf4",
