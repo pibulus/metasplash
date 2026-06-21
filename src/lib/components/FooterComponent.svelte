@@ -58,13 +58,23 @@
     border-radius: 0.75rem;
   }
   .footer-nav-button:hover {
-    background-color: rgba(var(--ds-primary-color-rgb, 147, 51, 234), 0.12);
-    color: var(--ds-accent-color, #c026d3);
+    background-color: var(
+      --footer-button-hover-bg,
+      rgba(var(--ds-primary-color-rgb, 147, 51, 234), 0.12)
+    );
+    color: var(--footer-button-hover-color, var(--ds-accent-color, #c026d3));
   }
   .footer-nav-button:focus-visible {
-    outline: 2px solid rgba(var(--ds-primary-color-rgb, 147, 51, 234), 0.55);
+    outline: 2px solid
+      var(
+        --footer-focus-ring,
+        rgba(var(--ds-primary-color-rgb, 147, 51, 234), 0.55)
+      );
     outline-offset: 2px;
-    background-color: rgba(var(--ds-primary-color-rgb, 147, 51, 234), 0.14);
-    color: var(--ds-accent-color, #c026d3);
+    background-color: var(
+      --footer-button-hover-bg,
+      rgba(var(--ds-primary-color-rgb, 147, 51, 234), 0.14)
+    );
+    color: var(--footer-button-hover-color, var(--ds-accent-color, #c026d3));
   }
 </style>

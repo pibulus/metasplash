@@ -115,7 +115,7 @@
   }
 </script>
 
-<PageLayout>
+<PageLayout appName="metasplash">
   <div class="flex w-full flex-col items-center gap-5">
     <div class="flex w-full flex-col items-center gap-8">
       <div class="mascot-slot h-44 w-44 sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-64 lg:w-64">

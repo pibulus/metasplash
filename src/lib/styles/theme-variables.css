@@ -10,6 +10,16 @@
   --ds-accent-color: #06b6d4;
   --ds-footer-surface-rgb: 240, 253, 244;
   --app-suffix-gradient: linear-gradient(to bottom right, #10b981, #06b6d4);
+
+  /* footer chrome (neutral --footer-* namespace) — light theme, dark text */
+  --footer-text-color: #4a4458;
+  --footer-heart-color: #ef4444;
+  --footer-border-color: rgba(16, 185, 129, 0.14);
+  --footer-bg: rgba(240, 253, 244, 0.75);
+  --footer-dot-color: #06b6d4;
+  --footer-button-hover-bg: rgba(16, 185, 129, 0.1);
+  --footer-button-hover-color: #06b6d4;
+  --footer-focus-ring: rgba(16, 185, 129, 0.4);
 }
 
 html[data-theme="clean"] {
@@ -20,6 +30,15 @@ html[data-theme="clean"] {
   --ds-accent-color: #06b6d4;
   --ds-footer-surface-rgb: 240, 253, 244;
   --app-suffix-gradient: linear-gradient(to bottom right, #10b981, #06b6d4);
+
+  --footer-text-color: #4a4458;
+  --footer-heart-color: #ef4444;
+  --footer-border-color: rgba(16, 185, 129, 0.14);
+  --footer-bg: rgba(240, 253, 244, 0.75);
+  --footer-dot-color: #06b6d4;
+  --footer-button-hover-bg: rgba(16, 185, 129, 0.1);
+  --footer-button-hover-color: #06b6d4;
+  --footer-focus-ring: rgba(16, 185, 129, 0.4);
 }
 
 html[data-theme="porcelain"] {
@@ -30,6 +49,15 @@ html[data-theme="porcelain"] {
   --ds-accent-color: #3b82f6;
   --ds-footer-surface-rgb: 236, 254, 255;
   --app-suffix-gradient: linear-gradient(to bottom right, #0ea5e9, #3b82f6);
+
+  --footer-text-color: #44485a;
+  --footer-heart-color: #ef4444;
+  --footer-border-color: rgba(14, 165, 233, 0.14);
+  --footer-bg: rgba(236, 254, 255, 0.75);
+  --footer-dot-color: #3b82f6;
+  --footer-button-hover-bg: rgba(14, 165, 233, 0.1);
+  --footer-button-hover-color: #3b82f6;
+  --footer-focus-ring: rgba(14, 165, 233, 0.4);
 }
 
 html[data-theme="kraft"] {
@@ -40,6 +68,15 @@ html[data-theme="kraft"] {
   --ds-accent-color: #166534;
   --ds-footer-surface-rgb: 253, 252, 250;
   --app-suffix-gradient: linear-gradient(to bottom right, #854d0e, #166534);
+
+  --footer-text-color: #4a4034;
+  --footer-heart-color: #ef4444;
+  --footer-border-color: rgba(133, 77, 14, 0.14);
+  --footer-bg: rgba(253, 252, 250, 0.75);
+  --footer-dot-color: #166534;
+  --footer-button-hover-bg: rgba(133, 77, 14, 0.1);
+  --footer-button-hover-color: #166534;
+  --footer-focus-ring: rgba(133, 77, 14, 0.4);
 }
 
 html[data-theme="lavender"] {
@@ -50,4 +87,13 @@ html[data-theme="lavender"] {
   --ds-accent-color: #a855f7;
   --ds-footer-surface-rgb: 245, 243, 255;
   --app-suffix-gradient: linear-gradient(to bottom right, #6366f1, #a855f7);
+
+  --footer-text-color: #4a4458;
+  --footer-heart-color: #ef4444;
+  --footer-border-color: rgba(99, 102, 241, 0.14);
+  --footer-bg: rgba(245, 243, 255, 0.75);
+  --footer-dot-color: #a855f7;
+  --footer-button-hover-bg: rgba(99, 102, 241, 0.1);
+  --footer-button-hover-color: #a855f7;
+  --footer-focus-ring: rgba(99, 102, 241, 0.4);
 }
