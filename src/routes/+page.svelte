@@ -161,6 +161,7 @@
         <Mascot
           bind:this={mascot}
           character="documentghost"
+          eyes="steady"
           accessory="none"
           theme={$theme}
           {busy}
