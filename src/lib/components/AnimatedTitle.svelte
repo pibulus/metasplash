@@ -1,8 +1,9 @@
 <script>
   import { AppSuffix } from "$lib/components/ui";
 
-  export let title = "DrShrink";
-  export let subtitle = "Drop a file in, get a smaller one out. No settings, no fuss.";
+  export let title = "metasplash";
+  export let subtitle =
+    "Tag ya art. Stamp your name, copyright & socials onto your work before you ship it — photos and audio, 100% in your browser.";
   export let showAppSuffix = true;
 
   $: titleCharacters = Array.from(title);

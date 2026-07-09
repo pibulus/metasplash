@@ -84,6 +84,8 @@
     align-items: center;
     gap: 0.6rem;
     margin-bottom: 1rem;
+    /* keep the title clear of the absolute close X */
+    padding-right: 2.5rem;
   }
   .ico {
     font-size: 1.5rem;

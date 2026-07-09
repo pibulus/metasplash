@@ -42,6 +42,31 @@
   let phase = "idle";
   /** @type {File|null} */
   let file = null;
+
+  // On ~800px desktop viewports the tall hero pushes the done card (and its
+  // Download button) below the fold with no cue. Reveal it with a minimal
+  // scroll (family pattern from talktype's waveform fix).
+  let doneCardEl;
+  let doneRevealTimer = null;
+  $: if (phase === "done" && doneCardEl) scheduleDoneReveal();
+
+  function scheduleDoneReveal() {
+    if (doneRevealTimer) return;
+    doneRevealTimer = setTimeout(() => {
+      doneRevealTimer = null;
+      try {
+        const reduceMotion = window.matchMedia?.(
+          "(prefers-reduced-motion: reduce)",
+        )?.matches;
+        doneCardEl?.scrollIntoView({
+          behavior: reduceMotion ? "auto" : "smooth",
+          block: "nearest",
+        });
+      } catch {
+        // Scrolling is a nicety — never let it break the tagging flow.
+      }
+    }, 250);
+  }
   let kind = "unknown";
   let fields = {};
   /** @type {{name,blob,type,inputSize,outputSize,note}|null} */
@@ -213,7 +238,7 @@
     {/if}
 
     {#if phase === "done" && tagged}
-      <div class="card done">
+      <div class="card done" bind:this={doneCardEl}>
         <p class="card-head">Tagged! ✨</p>
         <p class="done-meta">
           {tagged.name}
@@ -283,6 +308,11 @@
 />
 
 <style>
+  .card.done {
+    /* scrollIntoView respects this (unlike margin) — clears the fixed footer */
+    scroll-margin-bottom: 7rem;
+  }
+
   .mascot-slot {
     /* size governed by responsive Tailwind ramp on the element:
        h-44 w-44 → lg:h-64 w-64 (176px base → 256px lg), square + centered */
