@@ -28,6 +28,7 @@
           © {footerYear} {appName}
         </span>
         <span class="footer-dot mx-2">•</span>
+        <span class="text-sm font-light mr-1">Made with</span>
         <span class="footer-heart mr-1 inline-block animate-pulse hover:scale-110" aria-label="love">❤️</span>
         <span class="text-sm font-light">in Melbourne</span>
       </div>
