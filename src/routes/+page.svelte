@@ -86,7 +86,8 @@
     kind = kindOf(f);
 
     if (kind === "image-png" || kind === "image-webp") {
-      error = "PNG/WebP tagging is coming soon — convert to JPEG to tag it today.";
+      error =
+        "PNG/WebP tagging is coming soon — convert to JPEG to tag it today.";
       phase = "idle";
       return;
     }
@@ -117,7 +118,12 @@
     try {
       tagged = await splashFileMetadata(file, fields);
       session = [
-        { name: tagged.name, blob: tagged.blob, type: tagged.type, outputSize: tagged.outputSize },
+        {
+          name: tagged.name,
+          blob: tagged.blob,
+          type: tagged.type,
+          outputSize: tagged.outputSize,
+        },
         ...session,
       ];
       mascot?.react(12);
@@ -156,8 +162,10 @@
 
 <PageLayout appName="metasplash">
   <div class="flex w-full flex-col items-center gap-5">
-    <div class="flex w-full flex-col items-center gap-8">
-      <div class="mascot-slot h-44 w-44 sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-64 lg:w-64">
+    <div class="flex w-full flex-col items-center gap-5 md:gap-6">
+      <div
+        class="mascot-slot h-44 w-44 sm:h-48 sm:w-48 md:h-52 md:w-52 lg:h-56 lg:w-56"
+      >
         <Mascot
           bind:this={mascot}
           character="documentghost"
@@ -199,7 +207,9 @@
           <span class="drop-text">Reading…</span>
         {:else}
           <span class="drop-text">Drop your work here</span>
-          <span class="drop-sub">a photo (JPEG) or a track (MP3) · nothing leaves your device</span>
+          <span class="drop-sub"
+            >a photo (JPEG) or a track (MP3) · nothing leaves your device</span
+          >
         {/if}
       </label>
     {/if}
@@ -213,7 +223,9 @@
       <div class="card">
         <p class="card-head">
           Tagging <strong>{file.name}</strong>
-          <span class="kind">{kind === "audio-id3" ? "audio · ID3" : "photo · EXIF"}</span>
+          <span class="kind"
+            >{kind === "audio-id3" ? "audio · ID3" : "photo · EXIF"}</span
+          >
         </p>
         <div class="fields">
           {#each fieldDefs as f}
@@ -244,12 +256,17 @@
         <p class="done-meta">
           {tagged.name}
           <span class="muted"
-            >· {formatBytes(tagged.inputSize)} → {formatBytes(tagged.outputSize)} · {tagged.note}</span
+            >· {formatBytes(tagged.inputSize)} → {formatBytes(
+              tagged.outputSize,
+            )} · {tagged.note}</span
           >
         </p>
         <div class="actions">
           <button class="ghost" on:click={reset}>tag another</button>
-          <button class="primary" on:click={() => downloadBlob(tagged.blob, tagged.name)}>
+          <button
+            class="primary"
+            on:click={() => downloadBlob(tagged.blob, tagged.name)}
+          >
             Download
           </button>
         </div>
@@ -265,13 +282,18 @@
             <li>
               <span class="h-name" title={h.name}>{h.name}</span>
               <span class="h-size">{formatBytes(h.outputSize)}</span>
-              <button class="h-dl" on:click={() => downloadBlob(h.blob, h.name)}>
+              <button
+                class="h-dl"
+                on:click={() => downloadBlob(h.blob, h.name)}
+              >
                 ↓
               </button>
             </li>
           {/each}
         </ul>
-        <p class="history-note">stays here until you reload — files live in memory, never uploaded</p>
+        <p class="history-note">
+          stays here until you reload — files live in memory, never uploaded
+        </p>
       </details>
     {/if}
 
@@ -318,6 +340,28 @@
     /* size governed by responsive Tailwind ramp on the element:
        h-44 w-44 → lg:h-64 w-64 (176px base → 256px lg), square + centered */
     flex-shrink: 0;
+  }
+
+  /* Short desktop viewports: compress the hero ramp further. */
+  @media (min-width: 768px) and (max-height: 820px) {
+    .mascot-slot {
+      height: 11rem !important;
+      width: 11rem !important;
+    }
+    .drop {
+      min-height: 130px;
+    }
+  }
+
+  /* Squat laptops (≤740px tall): deepest squeeze. */
+  @media (min-width: 768px) and (max-height: 740px) {
+    .mascot-slot {
+      height: 8.5rem !important;
+      width: 8.5rem !important;
+    }
+    .drop {
+      min-height: 120px;
+    }
   }
 
   .drop {
