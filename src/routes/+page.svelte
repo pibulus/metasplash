@@ -1,4 +1,5 @@
 <script>
+  import { notePwaMoment } from "$lib/components/PwaInstallCard.svelte";
   import { onMount } from "svelte";
   import { Mascot } from "$lib/components/mascot";
   import PageLayout from "$lib/components/layout/PageLayout.svelte";
@@ -128,6 +129,7 @@
       ];
       mascot?.react(12);
       phase = "done";
+      notePwaMoment(); // a finished stamp earns the install suggestion
     } catch (e) {
       error = e.message;
     }

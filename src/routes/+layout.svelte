@@ -10,6 +10,7 @@
   } from "$lib/components/mascot";
   import { metasplashThemes } from "$lib/mascotThemes.js";
   import { theme, applyTheme } from "$lib";
+  import PwaInstallCard from "$lib/components/PwaInstallCard.svelte";
   import { DEFAULT_THEME } from "$lib/constants.js";
 
   // Register metasplash's mascot palettes (keyed to the app theme names).
@@ -32,3 +33,10 @@
 </svg>
 
 <slot />
+
+<PwaInstallCard
+  appName="metasplash"
+  tagline="Tag ya art."
+  iconSrc="/icon-192.png"
+  storagePrefix="metasplash"
+/>
