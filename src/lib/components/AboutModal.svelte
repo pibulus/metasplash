@@ -3,7 +3,7 @@
   // Converged to the shared SKELETON (matches IntroModal): warm-dark blurred
   // backdrop (tap-to-close), spring-in open + animate-out close (closing flag
   // held before unmount), 44px circular X (top-right 1rem, scale-hover, focus
-  // ring), centred card above 640px → docked bottom-sheet below it.
+  // ring), centred floating card at every breakpoint.
   // prefers-reduced-motion = instant. Real document-ghost mascot, no 💦 emoji.
   // SKIN stays 100% metasplash: mint→teal, "tag ya art" / "sign your work" voice.
   import { createEventDispatcher } from "svelte";
@@ -25,10 +25,11 @@
       return;
     }
     closing = true;
+    // Matches the 180ms close animation in this file's <style>.
     setTimeout(() => {
       closing = false;
       dispatch("close");
-    }, 220);
+    }, 180);
   }
 
   function onKeydown(e) {
@@ -39,7 +40,12 @@
 <svelte:window on:keydown={open ? onKeydown : undefined} />
 
 {#if open}
-  <div class="overlay" class:closing role="presentation" on:click={requestClose}>
+  <div
+    class="overlay"
+    class:closing
+    role="presentation"
+    on:click={requestClose}
+  >
     <div
       class="box"
       class:closing
@@ -60,9 +66,10 @@
 
       <h2 id="about-title">About metasplash</h2>
       <p class="lede">
-        <strong>Tag ya art.</strong> Stamp your name, copyright, and socials onto
-        your own work before you share it — so the file carries who made it,
-        wherever it goes. metaflush strips metadata; metasplash <em>signs</em> it.
+        <strong>Tag ya art.</strong> Stamp your name, copyright, and socials
+        onto your own work before you share it — so the file carries who made
+        it, wherever it goes. metaflush strips metadata; metasplash
+        <em>signs</em> it.
       </p>
 
       <ul class="points">
@@ -71,8 +78,8 @@
           <strong>losslessly</strong>. Your pixels and samples stay untouched.
         </li>
         <li>
-          <span class="b">✦</span> It all happens in your browser. Nothing is
-          uploaded, nothing is tracked.
+          <span class="b">✦</span> It all happens in your browser. Nothing is uploaded,
+          nothing is tracked.
         </li>
         <li>
           <span class="b">✦</span> Save your details as a preset once, stamp them
@@ -82,7 +89,9 @@
 
       <p class="quote">"Sign your work."</p>
 
-      <p class="local">🔒 Runs fully in your browser. Your files never leave your device.</p>
+      <p class="local">
+        🔒 Runs fully in your browser. Your files never leave your device.
+      </p>
 
       <nav class="links" aria-label="Links">
         <a
@@ -105,8 +114,10 @@
 
       <p class="sig">
         Made with 🖊️ in Melbourne ·
-        <a href="https://github.com/pibulus" target="_blank" rel="noopener noreferrer"
-          >Pablo / Pibulus</a
+        <a
+          href="https://github.com/pibulus"
+          target="_blank"
+          rel="noopener noreferrer">Pablo / Pibulus</a
         >
       </p>
     </div>
@@ -129,7 +140,7 @@
     animation: backdrop-in 0.18s ease-out;
   }
   .overlay.closing {
-    animation: backdrop-out 0.22s ease-in forwards;
+    animation: backdrop-out 0.18s ease-out forwards;
   }
 
   /* ── Frame: centred card above 640px ─────────────────────────────── */
@@ -145,12 +156,11 @@
     box-shadow: 0 24px 64px rgba(16, 60, 40, 0.22);
     padding: 1.9rem 1.5rem 1.5rem;
     text-align: center;
-    /* spring-in (Comeau linear()) */
-    animation: pop-in 0.5s
-      linear(0, 0.4 7%, 1.05 18%, 1.12 24%, 0.97 47%, 1.005 70%, 1);
+    /* Rise with one small overshoot (the 1.06 ease) — family reference motion. */
+    animation: pop-in 0.28s cubic-bezier(0.16, 0.84, 0.24, 1.06);
   }
   .box.closing {
-    animation: pop-out 0.22s cubic-bezier(0.4, 0, 1, 0.6) forwards;
+    animation: pop-out 0.18s cubic-bezier(0.4, 0, 0.24, 1) forwards;
   }
 
   /* ── X button: 44px circular, top-right 1rem, scale-hover, focus ring */
@@ -290,24 +300,7 @@
     text-decoration: underline;
   }
 
-  /* ── Mobile bottom-sheet below 640px ─────────────────────────────── */
-  @media (max-width: 639px) {
-    .overlay {
-      align-items: flex-end;
-      padding: 0;
-    }
-    .box {
-      max-width: 100%;
-      max-height: 92vh;
-      border-radius: 24px 24px 0 0;
-      padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
-      animation: sheet-in 0.34s
-        linear(0, 0.4 7%, 1.05 18%, 1.12 24%, 0.97 47%, 1.005 70%, 1);
-    }
-    .box.closing {
-      animation: sheet-out 0.22s cubic-bezier(0.4, 0, 1, 0.6) forwards;
-    }
-  }
+  /* Centered floating card at every breakpoint — no mobile bottom sheet. */
 
   /* ── Keyframes ───────────────────────────────────────────────────── */
   @keyframes backdrop-in {
@@ -326,40 +319,25 @@
       opacity: 0;
     }
   }
+  /* Rise with one small overshoot (the 1.06 ease), no rotation. */
   @keyframes pop-in {
     from {
       opacity: 0;
-      transform: scale(0.9);
+      transform: translateY(12px) scale(0.96);
     }
     to {
       opacity: 1;
-      transform: scale(1);
+      transform: translateY(0) scale(1);
     }
   }
   @keyframes pop-out {
     from {
       opacity: 1;
-      transform: scale(1);
+      transform: translateY(0) scale(1);
     }
     to {
       opacity: 0;
-      transform: scale(0.94);
-    }
-  }
-  @keyframes sheet-in {
-    from {
-      transform: translateY(100%);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-  @keyframes sheet-out {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(100%);
+      transform: translateY(8px) scale(0.97);
     }
   }
 

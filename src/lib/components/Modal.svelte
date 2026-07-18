@@ -7,7 +7,30 @@
   export let icon = "";
 
   const dispatch = createEventDispatcher();
-  const close = () => dispatch("close");
+
+  let closing = false;
+
+  const prefersReducedMotion = () =>
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Close-out animation: hold a closing flag, then dispatch after the exit
+  // anim finishes (instant when reduced-motion is requested). Matches the
+  // family pattern in corruptor/cryptkeep/dr_shrink.
+  function close() {
+    if (closing) return;
+    if (prefersReducedMotion()) {
+      dispatch("close");
+      return;
+    }
+    closing = true;
+    // Matches the 180ms close animation in this file's <style>.
+    setTimeout(() => {
+      closing = false;
+      dispatch("close");
+    }, 180);
+  }
 
   function onKeydown(e) {
     if (e.key === "Escape") close();
@@ -17,9 +40,10 @@
 <svelte:window on:keydown={open ? onKeydown : undefined} />
 
 {#if open}
-  <div class="overlay" role="presentation" on:click={close}>
+  <div class="overlay" class:closing role="presentation" on:click={close}>
     <div
       class="box"
+      class:closing
       role="dialog"
       aria-modal="true"
       aria-label={title}
@@ -52,6 +76,9 @@
     backdrop-filter: blur(3px);
     animation: fade 0.18s ease-out;
   }
+  .overlay.closing {
+    animation: fadeOut 0.18s ease-out forwards;
+  }
   .box {
     position: relative;
     width: 100%;
@@ -63,9 +90,11 @@
     background: linear-gradient(135deg, #f3fdf7, var(--ds-bg, #e7faf0));
     box-shadow: 0 24px 64px rgba(16, 60, 40, 0.22);
     padding: 1.6rem 1.5rem 1.35rem;
-    /* spring-in (Comeau linear()) */
-    animation: pop 0.5s
-      linear(0, 0.4 7%, 1.05 18%, 1.12 24%, 0.97 47%, 1.005 70%, 1);
+    /* Rise with one small overshoot (the 1.06 ease) — family reference motion. */
+    animation: pop 0.28s cubic-bezier(0.16, 0.84, 0.24, 1.06);
+  }
+  .box.closing {
+    animation: popOut 0.18s cubic-bezier(0.4, 0, 0.24, 1) forwards;
   }
   .x {
     position: absolute;
@@ -109,9 +138,39 @@
       opacity: 1;
     }
   }
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  @keyframes popOut {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(8px) scale(0.97);
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     .overlay,
-    .box {
+    .overlay.closing,
+    .box,
+    .box.closing {
       animation: none;
     }
   }
