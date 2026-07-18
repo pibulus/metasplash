@@ -365,12 +365,12 @@
 
   .error {
     border-radius: 0.75rem;
-    border: 2px solid #fca5a5;
-    background: #fef2f2;
+    border: 2px solid #fcd9a8;
+    background: #fef6ea;
     padding: 0.5rem 1rem;
     font-size: 0.85rem;
     font-weight: 600;
-    color: #dc2626;
+    color: #b45309;
     text-align: center;
   }
 
