@@ -28,6 +28,13 @@
   let showAbout = false;
   let showIntro = false;
 
+  // Body scroll-lock while any modal is open — one owner (the page holds the
+  // flags), so per-modal instances can't fight over the class. CSS rule:
+  // body.modal-open { overflow: hidden; } in app.css.
+  $: if (typeof document !== "undefined") {
+    document.body.classList.toggle("modal-open", showOptions || showAbout || showIntro);
+  }
+
   const INTRO_SEEN_KEY = "metasplash:seen_intro";
 
   onMount(() => {
