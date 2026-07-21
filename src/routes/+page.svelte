@@ -166,7 +166,7 @@
   <div class="flex w-full flex-col items-center gap-5">
     <div class="flex w-full flex-col items-center gap-5 md:gap-6">
       <div
-        class="mascot-slot h-44 w-44 sm:h-48 sm:w-48 md:h-52 md:w-52 lg:h-56 lg:w-56"
+        class="mascot-slot mb-4 h-44 w-44 sm:h-48 sm:w-48 md:mb-0 md:h-56 md:w-56 lg:h-64 lg:w-64"
       >
         <Mascot
           bind:this={mascot}
@@ -188,32 +188,34 @@
 
     {#if phase === "idle"}
       <!-- Drop zone -->
-      <label
-        for="file-input"
-        class="drop"
-        class:drop-over={dragOver}
-        class:drop-busy={busy}
-        on:dragover|preventDefault={() => (dragOver = true)}
-        on:dragleave={() => (dragOver = false)}
-        on:drop={onDrop}
-      >
-        <input
-          id="file-input"
-          type="file"
-          accept="image/jpeg,audio/mpeg,.jpg,.jpeg,.mp3"
-          class="sr-only"
-          aria-label="Choose a file to tag"
-          on:change={onPick}
-        />
-        {#if busy}
-          <span class="drop-text">Reading…</span>
-        {:else}
-          <span class="drop-text">Drop your work here</span>
-          <span class="drop-sub"
-            >a photo (JPEG) or a track (MP3) · nothing leaves your device</span
-          >
-        {/if}
-      </label>
+      <div class="cta-section w-full max-w-xl pb-4 pt-2 md:max-w-2xl lg:max-w-3xl">
+        <label
+          for="file-input"
+          class="drop"
+          class:drop-over={dragOver}
+          class:drop-busy={busy}
+          on:dragover|preventDefault={() => (dragOver = true)}
+          on:dragleave={() => (dragOver = false)}
+          on:drop={onDrop}
+        >
+          <input
+            id="file-input"
+            type="file"
+            accept="image/jpeg,audio/mpeg,.jpg,.jpeg,.mp3"
+            class="sr-only"
+            aria-label="Choose a file to tag"
+            on:change={onPick}
+          />
+          {#if busy}
+            <span class="drop-text">Reading…</span>
+          {:else}
+            <span class="drop-text">Drop your work here</span>
+            <span class="drop-sub"
+              >a photo (JPEG) or a track (MP3) · nothing leaves your device</span
+            >
+          {/if}
+        </label>
+      </div>
     {/if}
 
     {#if error}
@@ -333,6 +335,24 @@
 />
 
 <style>
+
+	/* HERO-SPEC.md ink-parity: engine art runs ~86% full-bleed vs the ghost's
+	   ~68%; ~12%-of-slot padding inside the fixed family slot makes ink read
+	   ghost-sized (~168px @lg vs ghost 174, measured live 2026-07-21). Fixed px
+	   because %-padding resolves against the PARENT column width, not the slot. */
+	.mascot-slot {
+		padding: 21px;
+		box-sizing: border-box;
+	}
+	@media (min-width: 640px) {
+		.mascot-slot { padding: 23px; }
+	}
+	@media (min-width: 768px) {
+		.mascot-slot { padding: 27px; }
+	}
+	@media (min-width: 1024px) {
+		.mascot-slot { padding: 31px; }
+	}
   .card.done {
     /* scrollIntoView respects this (unlike margin) — clears the fixed footer */
     scroll-margin-bottom: 7rem;
@@ -340,7 +360,7 @@
 
   .mascot-slot {
     /* size governed by responsive Tailwind ramp on the element:
-       h-44 w-44 → lg:h-64 w-64 (176px base → 256px lg), square + centered */
+       h-44 w-44 → lg:h-64 w-64 (176px base → 256px lg, the family mascot slot), square + centered */
     flex-shrink: 0;
   }
 
