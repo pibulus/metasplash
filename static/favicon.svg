@@ -41,7 +41,6 @@
     C581.906189,481.129486 581.375549,476.675323 580.705505,471.768982 
   z"/>
 </defs>
-  <rect width="1024" height="1024" rx="200" fill="url(#msPanel)"/>
   <g transform="translate(120,120) scale(0.765625)"><use xlink:href="#mascot-background" href="#mascot-background" fill="url(#msBg)"/>
     <use xlink:href="#mascot-body-path" href="#mascot-body-path" fill="#1a2e2a"/>
     <use xlink:href="#mascot-eye-left-path" href="#mascot-eye-left-path" fill="#1a2e2a"/>
